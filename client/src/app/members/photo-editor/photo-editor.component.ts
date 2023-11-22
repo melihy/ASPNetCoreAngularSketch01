@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
-import { take } from 'rxjs';
+import { take, timeInterval } from 'rxjs';
 import { Photo } from 'src/app/_models/Photo';
 import { Member } from 'src/app/_models/member';
 import { User } from 'src/app/_models/user';
@@ -85,6 +85,11 @@ export class PhotoEditorComponent implements OnInit {
       if (response) {
         const photo = JSON.parse(response);
         this.member?.photos.push(photo);
+        if (photo.isMain && this.user && this.member) {
+          this.user.photoUrl = photo.url;
+          this.member.photoUrl = photo.url;
+          this.accountService.setCurrentUser(this.user);
+        }
       }
     }
   }
