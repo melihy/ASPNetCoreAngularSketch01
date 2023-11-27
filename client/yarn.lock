@@ -4517,6 +4517,13 @@ ngx-spinner@16:
   dependencies:
     tslib "^2.3.0"
 
+ngx-timeago@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/ngx-timeago/-/ngx-timeago-3.0.0.tgz"
+  integrity sha512-oz+X8qbPJD6uFHXVWUTE+scjLPskOKbrAVlUG0pUwrn8wru7woryGdK/xdjvS74n187tbo5+e8AXgLCqEvUSjw==
+  dependencies:
+    tslib "^2.3.0"
+
 ngx-toastr@^17.0.2:
   version "17.0.2"
   resolved "https://registry.npmjs.org/ngx-toastr/-/ngx-toastr-17.0.2.tgz"
