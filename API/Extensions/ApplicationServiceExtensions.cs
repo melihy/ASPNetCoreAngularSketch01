@@ -2,7 +2,6 @@
 using API.Helpers;
 using API.Interfaces;
 using API.Services;
-using CloudinaryDotNet;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Extensions
@@ -24,7 +23,8 @@ namespace API.Extensions
             services.AddScoped<IPhotoService, PhotoService>();
             services.AddScoped<LogUserActivity>();
             services.AddScoped<ILikesRepository, LikesRepository>();
-            
+            services.AddScoped<IMessageRepository, MessageRepository>();
+
             return services;
         }
     }
