@@ -24,12 +24,11 @@ public class UsersController : BaseApiController
         _mapper = mapper;
     }
 
-    // [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<PagedList<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
     {
         var currentUser = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
-        
+
         userParams.CurrentUsername = currentUser.UserName;
 
         if (string.IsNullOrEmpty(userParams.Gender))
@@ -43,7 +42,6 @@ public class UsersController : BaseApiController
 
         return Ok(users);
     }
-
 
     [HttpGet("{username}")] // /api/users/2
     public async Task<ActionResult<MemberDto>> GetUser(string username)
