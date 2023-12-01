@@ -82,19 +82,16 @@ namespace API.Data
 
         public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUserName, string recipientUserName)
         {
-            var messages = await _context.Messages
-            .Include(u => u.Sender).ThenInclude(p => p.Photos)
-            .Include(u => u.Recipient).ThenInclude(p => p.Photos)
+            var query = _context.Messages
             .Where(q =>
             q.RecipientUsername == currentUserName && q.RecipientDeleted == false &&
             q.SenderUsername == recipientUserName ||
             q.RecipientUsername == recipientUserName && q.SenderDeleted == false &&
             q.SenderUsername == currentUserName
-            )
-            .OrderBy(q => q.MessageSent)
-            .ToListAsync();
+            ).OrderBy(q => q.MessageSent)
+            .AsQueryable();
 
-            var unreadMessages = messages.Where(q => q.DateRead == null && q.RecipientUsername == currentUserName).ToList();
+            var unreadMessages = query.Where(q => q.DateRead == null && q.RecipientUsername == currentUserName).ToList();
 
             if (unreadMessages.Any())
             {
@@ -102,21 +99,14 @@ namespace API.Data
                 {
                     message.DateRead = DateTime.UtcNow;
                 }
-
-                await _context.SaveChangesAsync();
             }
 
-            return _mapper.Map<IEnumerable<MessageDto>>(messages);
+            return await query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
         public void RemoveConnection(Connection connection)
         {
             _context.Connections.Remove(connection);
-        }
-
-        public async Task<bool> SaveAllAsync()
-        {
-            return await _context.SaveChangesAsync() > 0;
         }
     }
 }
