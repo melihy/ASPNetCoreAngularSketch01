@@ -9,13 +9,17 @@
         <button (click)="addLike(member)" class="btn btn-primary"><i class="fa fa-heart"></i></button>
       </li>
       <li class="list-inline-item">
-        <button routerLink="/members/{{member.userName}}" [queryParams]="{tab:'Messages'}" class="btn btn-primary"><i class="fa fa-envelope"></i></button>
+        <button routerLink="/members/{{member.userName}}" [queryParams]="{tab:'Messages'}" class="btn btn-primary"><i
+            class="fa fa-envelope"></i></button>
       </li>
     </ul>
   </div>
   <div class="card-body p1">
     <h6 class="card-title text-center mb-1">
-      <i class="fa fa-user me-2"></i>
+      <span [class.is-online]="(presenceService.onlineUsers$ | async)?.includes(member.userName)">
+        <i class="fa fa-user me-2"></i>
+      </span>
+
       {{member.knownAs}}, {{member.age}}
     </h6>
     <p class="card-text text-muted text-center">{{member.city}}</p>
